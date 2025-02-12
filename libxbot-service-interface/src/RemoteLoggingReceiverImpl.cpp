@@ -2,8 +2,7 @@
 // Created by clemens on 07.02.25.
 //
 
-#include "RemoteLoggingReceiverImpl.hpp"
-
+#include <xbot-service-interface/RemoteLoggingReceiverImpl.hpp>
 #include <xbot-service-interface/Socket.hpp>
 #include <xbot/config.hpp>
 #include <xbot/datatypes/XbotHeader.hpp>

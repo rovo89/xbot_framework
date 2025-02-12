@@ -5,6 +5,7 @@
 #ifndef XBOT_FRAMEWORK_XBOTSERVICEINTERFACE_HPP
 #define XBOT_FRAMEWORK_XBOTSERVICEINTERFACE_HPP
 
+#include <xbot-service-interface/RemoteLoggingReceiverImpl.hpp>
 #include <xbot-service-interface/ServiceDiscovery.hpp>
 #include <xbot-service-interface/ServiceIO.hpp>
 
@@ -12,7 +13,7 @@ namespace xbot::serviceif {
 struct Context {
   ServiceIO *io = nullptr;
   ServiceDiscovery *serviceDiscovery = nullptr;
-  void* ctx = nullptr;
+  RemoteLoggingReceiverImpl *logReceiver = nullptr;
 };
 
 /**

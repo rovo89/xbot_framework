@@ -5,11 +5,11 @@
 
 #include <csignal>
 #include <mutex>
+#include <xbot-service-interface/RemoteLoggingReceiverImpl.hpp>
 #include <xbot-service-interface/XbotServiceInterface.hpp>
 
 #include "CrowToSpeedlogHandler.hpp"
 #include "PlotJugglerBridge.hpp"
-#include "RemoteLoggingReceiverImpl.hpp"
 #include "ServiceDiscoveryImpl.hpp"
 #include "ServiceIOImpl.hpp"
 
@@ -56,7 +56,7 @@ xbot::serviceif::Context xbot::serviceif::Start(bool register_handlers, std::str
   const auto sdImpl = ServiceDiscoveryImpl::GetInstance();
   const auto rlImpl = RemoteLoggingReceiverImpl::GetInstance();
 
-  ctx = {.io = ioImpl, .serviceDiscovery = sdImpl, .ctx = rlImpl};
+  ctx = {.io = ioImpl, .serviceDiscovery = sdImpl, .logReceiver = rlImpl};
 
   // Register the ServiceIO before starting service discovery
   // this way, whenever a service is found, ServiceIO claims it automatically
@@ -117,8 +117,8 @@ void xbot::serviceif::Stop() {
   if (started) {
     dynamic_cast<ServiceDiscoveryImpl *>(ctx.serviceDiscovery)->Stop();
     dynamic_cast<ServiceIOImpl *>(ctx.io)->Stop();
-    if (ctx.ctx != nullptr) {
-      static_cast<RemoteLoggingReceiverImpl*>(ctx.ctx)->Stop();
+    if (ctx.logReceiver != nullptr) {
+      ctx.logReceiver->Stop();
     }
     if (crow_app) {
       crow_app->stop();
